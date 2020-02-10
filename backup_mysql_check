@@ -1,0 +1,65 @@
+#!/bin/bash 
+
+today=`date +"%d-%m-%Y"`                        #Get Backup DATE                
+db_backup_path='/backup/db_backup'              #The Backup directory
+ 
+mysql_host='localhost'                          #Enter mysql server host 
+mysql_port='3306'                               #Enter port for host
+mysql_user='tovmas'                             #Enter the username
+mysql_pass='Tovmas1994.'                        #Enter the password of a user
+
+
+#Autodetect the linux bin path
+mysql="$(which mysql)"
+mydump="$(which mysqldump)"
+
+#Creating backup directoy if not exist
+mbd="$db_backup_path/$today/"
+mkdir  -p $mbd
+
+# Get all databases
+databases="$($mysql -h $mysql_host -P $mysql_port -u $mysql_user -p$mysql_pass -Bse 'show databases' | grep -v 'information_schema\|performance_schema\|sys')"
+
+
+# Database dumps
+for db in $databases
+
+do 
+
+$mydump --host=$mysql_host --port=$mysql_port --user=$mysqluser --password=$mysql_pass $db | gzip -9 >> $mbd/$db.gz
+
+if [ $? -eq 0 ]; then
+
+echo "$db" >> $mbd/backuped_db
+
+else 
+
+echo "$db failed to backup" >> $mbd/error.log
+
+fi
+
+done
+
+#List of backuped databases 
+bpdb=$(cat $mbd/backuped_db)
+
+#Check failed databases 
+for i in $databases 
+do 
+
+k=$(echo "$bpdb" | grep -w "$i")
+
+if [[ $i == $k ]]; then
+
+echo ""
+
+else 
+
+#Dump failed Databases
+
+$mydump --host=$mysql_host --port=$mysql_port --user=$mysqluser --password=$mysql_pass $i | gzip -9 >> $mbd/$i.gz
+
+
+fi
+
+done
