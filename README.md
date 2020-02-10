@@ -1,9 +1,9 @@
 Backup_mysql Script's features:
 
-*Backup multiple databases.
-*Compress backup files.
-*Create logfile.
-*Check failed databases
+* Backup multiple databases.
+* Compress backup files.
+* Create logfile.
+* Check failed databases
 
 To use this script you must enter your sql server host, port, user, password. 
 If there are databases that you don’t want to backup then you need to write them 
