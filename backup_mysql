@@ -3,10 +3,10 @@
 today=`date +"%d-%m-%Y"`                        #Get Backup DATE                
 db_backup_path='/backup/db_backup'              #The Backup directory
  
-mysql_host='localhost'                          #Enter mysql server host 
-mysql_port='3306'                               #Enter port for host
-mysql_user='tovmas'                             #Enter the username
-mysql_pass='Tovmas1994.'                        #Enter the password of a user
+mysql_host=''                        #Enter mysql server host 
+mysql_port=''                        #Enter port for host
+mysql_user=''                        #Enter the username
+mysql_pass=''                        #Enter the password of a user
 
 
 #Autodetect the linux bin path
@@ -20,7 +20,7 @@ bpdb=$( cat $mbd/backuped_db)
 echo "" >> $mbd/backuped_db
 
 # Get all databases
-databases="$($mysql -h $mysql_host -P $mysql_port -u $mysql_user -p$mysql_pass -Bse 'show databases' | grep -v 'information_schema\|performance_schema\|sys')"
+databases="$($mysql -h $mysql_host -P $mysql_port -u $mysql_user -p$mysql_pass -Bse 'show databases' | grep -Ev 'information_schema|performance_schema|sys')"
 
 
 if [[ $bpdb == "" ]]; then 
@@ -60,7 +60,7 @@ echo "" >> /dev/null
 
 else
 
-$mydump --host=$mysql_host --port=$mysql_port --user=$mysqluser --password=$mysql_pass $i | gzip -9 > $mbd/$i.gz
+$mydump --host=$mysql_host --port=$mysql_port --user=$mysql_user --password=$mysql_pass $i | gzip -9 > $mbd/$i.gz
 
           if [[ $? -eq 0 ]] ; then 
    
