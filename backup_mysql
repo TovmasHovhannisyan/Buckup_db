@@ -5,8 +5,8 @@ db_backup_path='/backup/db_backup'              #The Backup directory
  
 mysql_host='localhost'                        #Enter mysql server host 
 mysql_port='3306'                        #Enter port for host
-mysql_user=''                        #Enter the username
-mysql_pass=''                        #Enter the password of a user
+mysql_user='test'                        #Enter the username
+mysql_pass='test'                        #Enter the password of a user
 
 
 #Autodetect the linux bin path
